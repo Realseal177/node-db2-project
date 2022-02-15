@@ -44,13 +44,15 @@ const checkCarPayload = (req, res, next) => {
   }
 }
 
-const checkVinNumberValid = async (req, res, next) => {
+const checkVinNumberValid = (req, res, next) => {
   const { vin } = req.body;
   if (vinValidator.validate(vin)) {
     next()
   } else {
-    req.car = car;
-    next()
+    next({
+      status: 400,
+      message: `vin ${vin} is invalid`
+    })
   }
 }
 
